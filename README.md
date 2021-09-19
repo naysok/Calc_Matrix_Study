@@ -96,8 +96,35 @@ Transform Structure (RhinoCommon API)
 
 ## 演算  
 
+モデルケースとして以下のモデルを作成。  
 
-### Python3 + Numpy の結果を Grasshopper で  
+Convex と Concave がそれぞれ一つずつブロックとなっている。  
+
+移動や回転なく、ブロックを挿入すると以下の写真のように配置される。  
+
+![rhino_blockinstance](_images/rhino_0.png)  
+
+AB の箇所にはそれぞれ Convex がはまり、計4個のまとまりとして考える。そしてそれらの行列に以下の様に名前を付ける（配置したときにからそのままの配置ものが二つあるのでそれらを同じ名前にしている）。  
+
+![rhino_blockinstance](_images/rhino_1.png)  
+
+ちなみに、さらに変換行列を足されると以下のようになる。
+
+![rhino_blockinstance](_images/rhino_2.png)  
+
+行列の演算で調べたいのはこの場合。位置が少しだけずれている。  
+
+![rhino_blockinstance](_images/rhino_3.png)  
+
+位置ずれを調べるには以下のような、一つ親を決め、親と子のブロック同士の変換行列を導出すればよいはず。許容値に関して後で考える。  
+
+![rhino_blockinstance](_images/rhino_4.png)  
+
+
+### RhinoCommon を用いて演算する  
+
+
+### Python3 + Numpy を用いて演算し、Grasshopper で表示を行う  
 
 
 ---  
