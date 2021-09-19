@@ -3,7 +3,7 @@
 
 三次元ジオメトリの変換行列に関して解きたい問題がある。変換行列を使うということをあまりやったことがないのでここで試していきたい。  
 
-Rhino for Mac では、GhPython から行列の要素にアクセスできず一日二日格闘して結局駄目だったが、Windows を使ったら普通にできたので Mac 版での動作は知りません。  
+~~Rhino for Mac では、GhPython から行列の要素にアクセスできず一日二日格闘して結局駄目だったが、Windows を使ったら普通にできたので Mac 版での動作は知りません。~~ 普通にできました。  
 
 
 ## アフィン変換  
@@ -17,6 +17,7 @@ Rhino for Mac では、GhPython から行列の要素にアクセスできず一
 
 
 ## オペレーション  
+
 
 ### Rhino における変換行列  
 
@@ -41,7 +42,48 @@ Grasshopper では、Transform 型がサポートされており、コンポー�
 
 ### Grasshopper + GhPython における変換行列  
 
+(X=1, Y=2, Z=3) の平行移動の変換行列を GhPython で読むと以下の通り。
 
+```python
+print(M)
+### R0=(1,0,0,1), R1=(0,1,0,2), R2=(0,0,1,3), R3=(0,0,0,1)
+
+print(type(M))
+### <type 'Transform'>
+
+print(M[0, 0], M[0, 1], M[0, 2], M[0, 3])
+### (1.0, 0.0, 0.0, 1.0)
+
+print(M[0, 3])
+### 1.0
+
+print(M[1, 3])
+### 2.0
+
+print(M[2, 3])
+### 3.0
+
+print(M[3, 3])
+### 1.0
+```
+
+GhPython の関数を見ていると、transform 型のような意味で xform (transform) となっているが、同じようなものとみてよいのだろうか。  
+
+transform 型（構造体）のプロパティとして、M00 という名前で0行目0個目の要素が入っている。以下は同じもの。
+
+```python
+print(M.M03)
+### 1.0
+
+print(M[0, 3]))
+### 1.0
+```
+
+Rhino.Common の方のドキュメントを見ると、必要なものが実装されているのいるので、下手に CPython 使わないほうが良いという気持ちと、Numpy で書いた方が汎用性があるよねという気持ちがどちらもある。  
+
+以下参照  
+Transform Structure (RhinoCommon API)  
+  - [https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_Transform.htm](https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_Transform.htm)  
 
 
 ### Python3 + Numpy  
@@ -62,6 +104,10 @@ Grasshopper では、Transform 型がサポートされており、コンポー�
 
 
 ## Ref  
+
+Transform Structure (RhinoCommon API)  
+- [https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_Transform.htm](https://developer.rhino3d.com/api/RhinoCommon/html/T_Rhino_Geometry_Transform.htm)  
+
 
 デジタル画像と定量化その６：アフィン変換・位置合わせ  
   - [http://www2.riken.jp/brict/Yoshizawa/Lectures/Kyuusyu/Lectures2011_06.pdf](http://www2.riken.jp/brict/Yoshizawa/Lectures/Kyuusyu/Lectures2011_06.pdf)  
